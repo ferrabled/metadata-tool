@@ -1,0 +1,1 @@
+Metadata tool is a Python program that allows reading and deleting metadata from files

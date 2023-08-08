@@ -32,16 +32,26 @@ def parse_results(exif):
                 exif[k] = " "   
     return exif
 
-def read_metadata():
-    # Read metadata from a file
-    # The user should select the file to read
-    print("Select the file to read: ")
-    file_path = input()
-    # Check if the file exists
-    if os.path.isdir(file_path):
-        print("Looking for images in: " + file_path)
-        # Read the metadata
-        for file in os.listdir(file_path):
+def export_metadata(exif, file_name):
+    toolpath = os.path.dirname(__file__)
+    csv_file = os.path.join(toolpath + ("\\metadata\\" + file_name + "_metadata.csv"))
+
+    if os.path.isfile(csv_file):
+        csv_file = os.path.join(toolpath + ("\\metadata\\" + file_name + "_2_metadata.csv"))
+
+    with open(csv_file, 'w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file, escapechar="\\", quoting=csv.QUOTE_ALL, lineterminator='\n')
+        try:
+            if(type(exif) == str): 
+                writer.writerow([exif])
+            else:
+                for key, value in exif.items():
+                    writer.writerow([str(key), str(value)])
+        except:
+            print("[ ERROR ] Error writing metadata to file")
+            print("[ ERROR ] " + str(sys.exc_info()[0]))
+            writer.writerow("Error obtaining metadata")
+    return csv_file
 
 
 def traverse_folder(folder_path, action):

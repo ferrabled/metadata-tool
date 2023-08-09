@@ -1,6 +1,7 @@
-import os
-import sys
 from PIL import Image, ExifTags
+import sys
+import os
+import csv
 
 def init_menu():
     # Set up the menu, the user should select which option to run
@@ -92,18 +93,18 @@ def read_metadata(file_path, export=False):
         exif = "No metadata found for this image"
         return exif
 
-            if file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):
-                print("Image found: " + file)
-                image = Image.open(os.path.join(file_path, file))
-                exifdata = image.getexif()
-                if(len(exifdata)>0):
-                    exif = { ExifTags.TAGS[k]: v for k, v in image._getexif().items() if k in ExifTags.TAGS }
-                    # Print the metadata
-                    print(exif)
-                else:
-                    print("{ No metadata found for this image }")
-    else:
-        print("The file does not exist")
+
+
+def delete_metadata(file_path):
+    # Delete metadata from a file
+    image = Image.open(os.path.realpath(file_path))
+    data = list(image.getdata())
+    image_without_exif = Image.new(image.mode, image.size)
+    image_without_exif.putdata(data)
+    # Save the image without metadata
+    image_without_exif.save(os.path.realpath(file_path))
+
+
 
 
 def main():

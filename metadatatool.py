@@ -106,21 +106,37 @@ def delete_metadata(file_path):
 
 
 
+art = """    __  ___     __            __      __           ______            __
+   /  |/  /__  / /_____ _____/ /___ _/ /_____ _   /_  __/___  ____  / /
+  / /|_/ / _ \/ __/ __ `/ __  / __ `/ __/ __ `/    / / / __ \/ __ \/ / 
+ / /  / /  __/ /_/ /_/ / /_/ / /_/ / /_/ /_/ /    / / / /_/ / /_/ / /  
+/_/  /_/\___/\__/\__,_/\__,_/\__,_/\__/\__,_/    /_/  \____/\____/_/   
+                                                                       """
+
 
 def main():
+    print(art)
     # Main function
     # Set up the menu
     option = init_menu()
     # Check the option selected by the user
+    print("[ ^ ] Select the file or folder to delete the metadata: ")
+    file_path = input()
     if option == "1":
         # Read metadata
-        read_metadata()
+        traverse_folder(file_path, 'read')
+    elif option == "2":
+        # Export metadata
+        traverse_folder(file_path, 'export')
     elif option == "3":
+        # Delete metadata
+        traverse_folder(file_path, 'delete')
+    elif option == "4":
         # Exit
-        print("Exiting")
+        print("[ x ] Exiting")
         sys.exit()
     else:
-        print("Invalid option")
+        print("[ x ] Invalid option, exiting")
         sys.exit()
 
     
